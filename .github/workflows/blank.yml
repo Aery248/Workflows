@@ -1,0 +1,44 @@
+name: Build & upload APK to TestApp.io
+
+on:
+  workflow_dispatch:
+  push:
+    branches: 
+      - main
+      - develop
+
+jobs:
+  build:
+    name: Build and upload to TestApp.io
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Ecrire un step, qui à partir du context, determine le type de build
+      # utiliser les context pour determiner la branche
+      #Assigner une valeur à une variable 
+      #--------------------------------------
+      #echo "Ma_VAR-Debug" >> $GITHUB_OUTPUT
+      # echo "MA_VAR-Release" >> $GITHUB_OUTPUT
+      - name: Determiner le type de build 
+        id: build-type
+        run: |
+        if[[ "${{github.ref_name}}" == "main" ]]; then 
+        echo"BUILD_TYPE=Release" >> $GITHUB_OUTPUT
+        else 
+          echo "BUILD_TYPE=Debug" >> $GITHUB_OUTPUT
+        fi
+
+      # Ce step doit se lancer si le trigger se fait sur la branche develop
+      - name: Build debug
+        # conditionner ce step
+        if: steps.build-type.outputs.TYPE == "Debug"
+        run: ./gradlew assembleDebug
+
+      # Ce step doit se lancer si le trigger se fait sur la branche main
+      - name: Build Release
+        # conditionner ce step
+        if: steps.build-type.outputs.TYPE == "Release"
+        run: ./gradlew assembleRelease
