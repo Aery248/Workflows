@@ -8,8 +8,26 @@ on:
       - develop
 
 jobs:
+  # JOB DE TEST UNIT
+  unit-test:
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: action/checkout@v5
+    
+      - name: "Set up JDK"
+        uses: actions/setup-java@v5
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      
+
+      - name: "Lancer les test"
+        run: ./gradlew testDebugUnitTest
+
+  # JOB DE BUILD
   build:
     name: Build and upload to TestApp.io
+    needs: unit-test
     runs-on: ubuntu-latest
 
     steps:
