@@ -14,13 +14,6 @@ jobs:
     steps: 
       - uses: actions/checkout@v5
     
-      - name: "Set up JDK"
-        uses: actions/setup-java@v5
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-      
-
       - name: "Lancer les test"
         run: ./gradlew test
 
