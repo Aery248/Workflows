@@ -26,7 +26,7 @@ jobs:
         id: build-type
         run: |
           if [[ "${{github.ref_name}}" == "main" ]]; then 
-            echo"BUILD_TYPE=Release" >> $GITHUB_OUTPUT
+            echo "BUILD_TYPE=Release" >> $GITHUB_OUTPUT
           else 
             echo "BUILD_TYPE=Debug" >> $GITHUB_OUTPUT
           fi
