@@ -22,7 +22,7 @@ jobs:
       
 
       - name: "Lancer les test"
-        run: ./gradlew testDebugUnitTest
+        run: ./gradlew test
 
   # JOB DE BUILD
   build:
